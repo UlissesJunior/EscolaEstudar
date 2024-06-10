@@ -1,5 +1,3 @@
-import React from 'react';
-
 interface ListProps<T> {
   data: T[];
   onDelete: (id: number) => void;
