@@ -22,9 +22,20 @@ const RegisterStudent: React.FC = () => {
       <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-3xl">
         {toaster && <Toaster message={toaster} removeToaster={() => setToaster(null)} />}
         <h2 className="text-xl font-semibold mb-2">Cadastrar Aluno</h2>
-        <DynamicForm<Aluno> 
-          schema={{ nome: 'Nome', matricula: 'Matrícula' }} 
-          onSubmit={addStudent} 
+        <DynamicForm<Aluno>
+          schema={{
+            nome: { label: 'Nome', type: 'text' },
+            dataNascimento: { label: 'Data de Nascimento', type: 'date' },
+            nivelEnsino: {
+              label: 'Nível de Ensino', type: 'select', options: [
+                { value: '', label: 'Selecione o nível de ensino' },
+                { value: 'Ensino Médio', label: 'Ensino Médio' },
+                { value: 'Ensino Fundamental', label: 'Ensino Fundamental' },
+                { value: 'Ensino Infantil', label: 'Ensino Infantil' },
+              ]
+            },
+          }}
+          onSubmit={addStudent}
         />
       </div>
     </div>

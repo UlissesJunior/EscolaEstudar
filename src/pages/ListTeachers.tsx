@@ -32,6 +32,14 @@ const ListTeachers: React.FC = () => {
     localStorage.setItem('teachers', JSON.stringify(updatedTeachers));
   };
 
+  const schema = {
+    id: { label: 'Matrícula' },
+    nome: { label: 'Nome' },
+    // disciplina: { label: 'Disciplina' },
+    nivelEnsino: {label: 'Nível de Ensino'},
+    // turmasAtribuidas: { label: 'Turmas Atribuídas' }
+  };
+
   return (
     <div className="h-screen w-screen flex items-center justify-center bg-gray-100">
       <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-3xl">
@@ -40,13 +48,24 @@ const ListTeachers: React.FC = () => {
           data={teachers}
           onDelete={deleteTeacher}
           onEdit={openEditDialog}
+          schema={schema}
         />
         {currentTeacher && (
           <EditDialog<Professor>
             isOpen={isEditDialogOpen}
             onClose={() => setIsEditDialogOpen(false)}
             onSave={saveTeacher}
-            schema={{ nome: 'Nome', disciplina: 'Disciplina' }}
+            schema={{
+              nome: { label: 'Nome', type: 'text' },
+              nivelEnsino: {
+                label: 'Nível de Ensino', type: 'select', options: [
+                  { value: '', label: 'Selecione o nível de ensino' },
+                  { value: 'Ensino Médio', label: 'Ensino Médio' },
+                  { value: 'Ensino Fundamental', label: 'Ensino Fundamental' },
+                  { value: 'Ensino Infantil', label: 'Ensino Infantil' },
+                ]
+              },
+            }}
             initialData={currentTeacher}
           />
         )}
