@@ -8,7 +8,8 @@ interface EditDialogProps<T> {
     [K in keyof T]: {
       label: string;
       type: 'text' | 'number' | 'select' | 'date' | 'time' | 'checkbox';
-      options?: { value: string; label: string }[]; // Optional for select types
+      options?: { value: string; label: string }[];
+      isObject?: boolean; // Indicate if the select should store an object
     }
   };
   initialData: T & { id: number };
@@ -58,8 +59,10 @@ const EditDialog = <T,>({ isOpen, onClose, onSave, schema, initialData }: EditDi
               </label>
               {schema[key as keyof T].type === 'select' ? (
                 <select
-                  value={(formData as any)[key]?.id?.toString() || ''}
-                  onChange={(e) => handleChange(key as keyof T, { id: e.target.value, nome: e.target.options[e.target.selectedIndex].text })}
+                  value={schema[key as keyof T].isObject ? (formData as any)[key]?.id?.toString() || '' : (formData as any)[key] || ''}
+                  onChange={(e) => schema[key as keyof T].isObject
+                    ? handleChange(key as keyof T, { id: parseInt(e.target.value), nome: e.target.options[e.target.selectedIndex].text })
+                    : handleChange(key as keyof T, e.target.value)}
                   className="border p-2 w-full rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
                   {schema[key as keyof T].options?.map((option) => (
